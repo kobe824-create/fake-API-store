@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Order confirmed — shopvault{% endblock %}
+
+{% block content %}
+<div class="checkout-card">
+    <div class="check">✓</div>
+    <h1>Order placed</h1>
+    <p>Thanks for shopping with us. Here's your summary.</p>
+
+    {% if order_items %}
+    <table class="cart-table" style="margin-bottom:1.5rem; text-align:left;">
+        <thead>
+            <tr><th>Item</th><th>Qty</th><th>Subtotal</th></tr>
+        </thead>
+        <tbody>
+            {% for item in order_items %}
+            <tr>
+                <td>
+                    <div class="item-info">
+                        <div class="item-img">
+                            <img src="{{ item.image }}" alt="{{ item.title }}">
+                        </div>
+                        <span class="item-name">{{ item.title }}</span>
+                    </div>
+                </td>
+                <td>{{ item.qty }}</td>
+                <td>${{ "%.2f"|format(item.price * item.qty) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="order-total">
+        Total: ${{ "%.2f"|format(total) }}
+    </div>
+    {% endif %}
+
+    <a href="{{ url_for('store') }}" class="btn btn-primary">Continue browsing</a>
+</div>
+{% endblock %}

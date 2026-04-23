@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Browse — shopvault{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Browse</h1>
+    <p class="page-subtitle">{{ products|length }} products available</p>
+</div>
+
+<div class="category-tabs">
+    <a href="{{ url_for('store') }}" class="{{ 'active' if not active_category else '' }}">All</a>
+    {% for cat in categories %}
+        <a href="{{ url_for('store', category=cat) }}"
+           class="{{ 'active' if active_category == cat else '' }}">
+            {{ cat|title }}
+        </a>
+    {% endfor %}
+</div>
+
+<div class="product-grid">
+    {% for product in products %}
+    <div class="product-card">
+        <a href="{{ url_for('product_detail', product_id=product.id) }}" class="img-wrap">
+            <img src="{{ product.image }}" alt="{{ product.title }}" loading="lazy">
+        </a>
+        <div class="info">
+            <div class="title">
+                <a href="{{ url_for('product_detail', product_id=product.id) }}">{{ product.title }}</a>
+            </div>
+            <div class="meta">
+                <span class="price">{{ "%.2f"|format(product.price) }}</span>
+                <span class="stars">
+                    {% set full = product.rating.rate|round(0, 'floor')|int %}
+                    {% for i in range(full) %}<span class="star">★</span>{% endfor %}{% for i in range(5 - full) %}<span class="star empty">★</span>{% endfor %}
+                    <span class="rating-text">{{ product.rating.rate }}</span>
+                </span>
+            </div>
+        </div>
+        <div class="card-actions">
+            <form action="{{ url_for('cart_add', product_id=product.id) }}" method="post">
+                <button type="submit" class="btn btn-primary btn-sm">Add to cart</button>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

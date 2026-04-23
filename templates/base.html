@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ShopVault{% endblock %}</title>
+    <meta name="description" content="ShopVault — Curated everyday essentials">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="{{ url_for('store') }}" class="logo">shop<span>vault</span></a>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('store') }}">Browse</a></li>
+            <li>
+                <a href="{{ url_for('cart') }}" class="cart-link">
+                    Cart
+                    {% if session.get('cart') %}
+                        <span class="cart-badge">{{ session['cart']|length }}</span>
+                    {% endif %}
+                </a>
+            </li>
+            <li><a href="{{ url_for('logout') }}">Sign out</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="flash flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer class="footer">
+        shopvault &middot; products via FakeStore API &middot; built with Flask
+    </footer>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shopvault — sign in</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="login-page">
+        <div class="login-card">
+            <h1>shop<span>vault</span></h1>
+            <p class="sub">Welcome back. Sign in to continue.</p>
+
+            {% if error %}
+                <div class="login-error">{{ error }}</div>
+            {% endif %}
+
+            <form action="{{ url_for('login') }}" method="post">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="your username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="your password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Sign in</button>
+            </form>
+
+            <div class="login-hint">
+                Demo credentials: <code>admin</code> / <code>password</code>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

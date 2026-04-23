@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}{{ product.title }} — shopvault{% endblock %}
+
+{% block content %}
+<div style="margin-bottom:1.5rem;">
+    <a href="{{ url_for('store') }}" class="btn btn-outline btn-sm">&larr; Back</a>
+</div>
+
+<div class="product-detail">
+    <div class="img-box">
+        <img src="{{ product.image }}" alt="{{ product.title }}">
+    </div>
+    <div class="details">
+        <span class="category-badge">{{ product.category }}</span>
+        <h1>{{ product.title }}</h1>
+        <div class="price">${{ "%.2f"|format(product.price) }}</div>
+        <div class="rating">
+            <span class="stars">
+                {% set full = product.rating.rate|round(0, 'floor')|int %}
+                {% for i in range(full) %}<span class="star">★</span>{% endfor %}{% for i in range(5 - full) %}<span class="star empty">★</span>{% endfor %}
+            </span>
+            <span>{{ product.rating.rate }}/5 &middot; {{ product.rating.count }} reviews</span>
+        </div>
+        <p class="desc">{{ product.description }}</p>
+        <form action="{{ url_for('cart_add', product_id=product.id) }}" method="post">
+            <button type="submit" class="btn btn-primary">Add to cart</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
